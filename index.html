@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Book Recommendations</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f6f8;
+      padding: 30px;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+    .filter-buttons {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    .filter-buttons button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 5px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .filter-buttons button:hover {
+      background-color: #2980b9;
+    }
+    .books-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .book-card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 15px;
+      transition: transform 0.3s;
+    }
+    .book-card:hover {
+      transform: translateY(-5px);
+    }
+    .book-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    .book-author {
+      color: #7f8c8d;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+    .book-genre {
+      font-size: 12px;
+      padding: 5px 10px;
+      background-color: #ecf0f1;
+      border-radius: 20px;
+      display: inline-block;
+      margin-top: 10px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📚 Book Recommendation Hub</h1>
+
+  <div class="filter-buttons">
+    <button onclick="filterBooks('All')">All</button>
+    <button onclick="filterBooks('Fiction')">Fiction</button>
+    <button onclick="filterBooks('Non-Fiction')">Non-Fiction</button>
+    <button onclick="filterBooks('Sci-Fi')">Sci-Fi</button>
+    <button onclick="filterBooks('Biography')">Biography</button>
+  </div>
+
+  <div class="books-container" id="books-container">
+    <!-- Book cards will be rendered here -->
+  </div>
+
+  <script>
+
+    
+ 
+  window.watsonAssistantChatOptions = {
+    integrationID: "44b9c206-393f-4e83-8cc7-fa48ba7df634", // The ID of this integration.
+    region: "au-syd", // The region your integration is hosted in.
+    serviceInstanceID: "415ec828-a2e6-4fa4-8cc7-430577a7704c", // The ID of your service instance.
+    onLoad: async (instance) => { await instance.render(); }
+  };
+  setTimeout(function(){
+    const t=document.createElement('script');
+    t.src="https://web-chat.global.assistant.watson.appdomain.cloud/versions/" + (window.watsonAssistantChatOptions.clientVersion || 'latest') + "/WatsonAssistantChatEntry.js";
+    document.head.appendChild(t);
+  });
+
+
+    const books = [
+      { title: "1984", author: "George Orwell", genre: "Fiction" },
+      { title: "Sapiens", author: "Yuval Noah Harari", genre: "Non-Fiction" },
+      { title: "Dune", author: "Frank Herbert", genre: "Sci-Fi" },
+      { title: "Steve Jobs", author: "Walter Isaacson", genre: "Biography" },
+      { title: "The Alchemist", author: "Paulo Coelho", genre: "Fiction" },
+      { title: "Educated", author: "Tara Westover", genre: "Biography" },
+      { title: "Brief Answers to the Big Questions", author: "Stephen Hawking", genre: "Non-Fiction" },
+      { title: "The Martian", author: "Andy Weir", genre: "Sci-Fi" },
+      { title: "To Kill a Mockingbird", author: "Harper Lee", genre: "Fiction" }
+    ];
+
+    const container = document.getElementById("books-container");
+
+    function renderBooks(filteredBooks) {
+      container.innerHTML = "";
+      filteredBooks.forEach(book => {
+        const card = document.createElement("div");
+        card.className = "book-card";
+        card.innerHTML = `
+          <div class="book-title">${book.title}</div>
+          <div class="book-author">by ${book.author}</div>
+          <div class="book-genre">${book.genre}</div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function filterBooks(genre) {
+      if (genre === "All") {
+        renderBooks(books);
+      } else {
+        const filtered = books.filter(book => book.genre === genre);
+        renderBooks(filtered);
+      }
+    }
+
+    // Initial render
+    renderBooks(books);
+  </script>
+
+</body>
+</html>
